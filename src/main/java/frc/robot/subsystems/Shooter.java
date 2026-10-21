@@ -19,8 +19,13 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Shooter extends SubsystemBase {
+  private SparkFlex shooterMotorController;
+  private SparkClosedLoopController shooterMotorController;
+  private RelativeEncoder shooterEncoder;
+  private SparkFlexConfig shooterConfig = new SparkFlexConfig()
 
   public Shooter() {}
+  private static final double IDLE_SPEED_RPM = 1000;
   
 
 
