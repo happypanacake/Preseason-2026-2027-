@@ -22,10 +22,28 @@ public class Shooter extends SubsystemBase {
   private SparkFlex shooterMotorController;
   private SparkClosedLoopController shooterMotorController;
   private RelativeEncoder shooterEncoder;
-  private SparkFlexConfig shooterConfig = new SparkFlexConfig()
-
-  public Shooter() {}
+  private SparkFlexConfig shooterConfig = new SparkFlexConfig();
   private static final double IDLE_SPEED_RPM = 1000;
+  
+  public Shooter(){
+  shooterMotorController = new SparkFlex(2, MotorType.kBrushless);
+  shooterPIDController = shooterMotorController.getClosedLoopController();
+  shooterEncoder = shooterMotorCOntroller.getEncoder();
+
+  shooterConfig
+        .idleMode(IdleMode.kCoast);
+        .voltageCompensation(12.0); // Makes it so that even when battery drains, it still pumps out duty cycle relative to 12 Volts
+        .smartCurrentLimit(40);
+
+    shooterConfig.closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder);
+        .p(0.5).i(0).d(0); // Automatically configures slot 0
+        .outputRange(-1, 1);
+        .positionWrappingEnabled(false); 
+        .closedLoop.feedForward.kV = 0.2;   
+
+  }
+ 
   
 
 
